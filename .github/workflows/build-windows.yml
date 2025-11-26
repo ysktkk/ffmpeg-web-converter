@@ -1,0 +1,46 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Download ffmpeg for Windows
+        shell: bash
+        run: |
+          mkdir -p bin
+          curl -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip -o ffmpeg.zip
+          unzip ffmpeg.zip
+          # 展開されたフォルダから ffmpeg.exe を探して bin/ にコピー
+          FFMPEG_EXE=$(find . -name "ffmpeg.exe" | head -n 1)
+          cp "$FFMPEG_EXE" bin/ffmpeg.exe
+          ls bin
+
+      - name: Build EXE
+        run: |
+          pyinstaller --onefile app.py
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-web-converter-exe
+          path: dist/app.exe
