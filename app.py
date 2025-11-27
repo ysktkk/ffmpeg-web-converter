@@ -2,7 +2,7 @@ import os
 import subprocess
 from flask import Flask, request, render_template_string, send_file
 from werkzeug.utils import secure_filename
-
+# Flask アプリケーションの設定
 app = Flask(__name__)
 
 # アップロードフォルダー（隠しフォルダー）
