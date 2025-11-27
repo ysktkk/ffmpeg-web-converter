@@ -2,8 +2,7 @@ import os
 import subprocess
 from flask import Flask, request, render_template_string, send_file
 from werkzeug.utils import secure_filename
-​
-app = Flask(__name__)
+​app = Flask(__name__)
 ​
 # アップロードフォルダー（隠しフォルダー）
 UPLOAD_FOLDER = ".uploads"
