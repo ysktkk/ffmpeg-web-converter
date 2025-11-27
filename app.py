@@ -391,5 +391,3 @@ if __name__ == "__main__":
         os.system("open http://127.0.0.1:5000/")
 
     app.run(debug=False)
-​
-    app.run(debug=False)
